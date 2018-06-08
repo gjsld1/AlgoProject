@@ -1,0 +1,85 @@
+#pragma once
+#include "stdafax.h"
+
+using namespace std;
+
+
+Array::Array()
+{
+	string tempLine = ""; 
+	int tempLen = 0;
+
+
+	ifstream input("subject.txt");
+	
+	getline(input, tempLine);
+	this->size = stoi(tempLine);
+	arrayNode = new node[size];
+
+	for (int i = 0; i < size; i++)
+	{
+		getline(input, tempLine);
+		tempLen = tempLine.length();
+		arrayNode[i].name = new char[tempLen];
+		strncpy(arrayNode[i].name, tempLine.c_str(), tempLen);
+		arrayNode[i].numName = tempLen;
+
+		getline(input, tempLine);
+		if (tempLine == "")arrayNode[i].numPreName = 0;
+		else
+		{
+			tempLen = tempLine.length();
+			arrayNode[i].preSubject = new char[tempLen];
+			strncpy(arrayNode[i].preSubject, tempLine.c_str(), tempLen);
+			arrayNode[i].numPreName = tempLen;
+		}
+
+		getline(input, tempLine);
+		arrayNode[i].subjectNum = new char[7];
+		strncpy(arrayNode[i].subjectNum, tempLine.c_str(), 7);
+
+		getline(input, tempLine);
+		arrayNode[i].isEssential = stoi(tempLine);
+
+		getline(input, tempLine);
+		arrayNode[i].isDesign = stoi(tempLine);
+
+		getline(input, tempLine);
+		arrayNode[i].isMajor = stoi(tempLine);
+
+		getline(input, tempLine);
+		arrayNode[i].credit = stoi(tempLine);
+
+	}
+	//showArray();
+}
+
+Array::~Array()
+{
+	delete []arrayNode;
+}
+
+void Array::showArray()
+{
+	int j, i;
+	for (i = 0; i < size; i++)
+	{
+		cout << (i+1) << endl;
+		cout << "과목명     : ";
+		for (j = 0; j < arrayNode[i].numName; j++)
+			cout << arrayNode[i].name[j];
+		cout << endl << "선이수과목 : ";
+		for (j = 0; j < arrayNode[i].numPreName; j++)
+			cout << arrayNode[i].preSubject[j];
+		cout << endl << "학수번호   : ";
+		for (j = 0; j < 7; j++)
+			cout << arrayNode[i].subjectNum[j];
+		cout << endl<< (arrayNode[i].isEssential?"필수":"선택");
+		cout << endl << (arrayNode[i].isDesign ? "설계" : "");
+		cout<<endl<< ((arrayNode[i].isMajor==0) ?"전공":
+			((arrayNode[i].isMajor == 1) ? "MSC" : ((arrayNode[i].isMajor == 2) ? "기초소양" : "교양")));
+		cout << endl << arrayNode[i].credit << "학점\n" << endl;
+
+
+	}
+}
