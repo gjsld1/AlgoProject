@@ -8,23 +8,22 @@ Array::Array()
 {
 	string tempLine = ""; 
 	int tempLen = 0;
-
-
-	ifstream input("subject.txt");
 	
-	getline(input, tempLine);
+	ifstream input2("subject.txt");
+	
+	getline(input2, tempLine);
 	this->size = stoi(tempLine);
 	arrayNode = new node[size];
 
 	for (int i = 0; i < size; i++)
 	{
-		getline(input, tempLine);
+		getline(input2, tempLine);
 		tempLen = tempLine.length();
 		arrayNode[i].name = new char[tempLen];
 		strncpy(arrayNode[i].name, tempLine.c_str(), tempLen);
 		arrayNode[i].numName = tempLen;
 
-		getline(input, tempLine);
+		getline(input2, tempLine);
 		if (tempLine == "")arrayNode[i].numPreName = 0;
 		else
 		{
@@ -34,24 +33,27 @@ Array::Array()
 			arrayNode[i].numPreName = tempLen;
 		}
 
-		getline(input, tempLine);
+		getline(input2, tempLine);
 		arrayNode[i].subjectNum = new char[7];
 		strncpy(arrayNode[i].subjectNum, tempLine.c_str(), 7);
 
-		getline(input, tempLine);
+		getline(input2, tempLine);
 		arrayNode[i].isEssential = stoi(tempLine);
 
-		getline(input, tempLine);
+		getline(input2, tempLine);
 		arrayNode[i].isDesign = stoi(tempLine);
 
-		getline(input, tempLine);
+		getline(input2, tempLine);
 		arrayNode[i].isMajor = stoi(tempLine);
 
-		getline(input, tempLine);
+		getline(input2, tempLine);
 		arrayNode[i].credit = stoi(tempLine);
 
 	}
-	//showArray();
+
+	input2.close();
+
+	showArray();
 }
 
 Array::~Array()

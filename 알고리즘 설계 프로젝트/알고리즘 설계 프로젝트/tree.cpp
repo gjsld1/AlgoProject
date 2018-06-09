@@ -1,6 +1,29 @@
 #pragma once
 #include "stdafax.h"
 
+treeNode::treeNode(char *name, int numName, char *preSubject, int numPreName,
+	char* subjectNum, int isEssential, int isDesign, int isMajor, int credit)
+{
+	this->numName = numName;
+	this->numPreName = numPreName;
+	this->isEssential = isEssential;
+	this->isDesign = isDesign;
+	this->isMajor = isMajor;
+	this->credit = credit;
+
+	this->name = new char[numName];
+	for (int i = 0; i < numName; i++)
+		this->name[i] = name[i];
+
+	this->preSubject = new char[numPreName];
+	for (int i = 0; i < numPreName; i++)
+		this->preSubject[i] = preSubject[i];
+
+	this->subjectNum = new char[7];
+	for (int i = 0; i < 7; i++)
+		this->subjectNum[i] = subjectNum[i];
+}
+
 Tree::Tree()
 {
 	z = &tailNode;
@@ -11,9 +34,9 @@ Tree::Tree()
 
 	string tempLine = "";
 	
-	ifstream input("subject.txt");
+	ifstream input3("subject.txt");
 
-	getline(input, tempLine);
+	getline(input3, tempLine);
 	this->size = stoi(tempLine);
 	
 
@@ -23,17 +46,17 @@ Tree::Tree()
 		int nameNumTemp, preNameNumTemp;
 		int essential, design, major, credit;
 
-		getline(input, tempLine);
+		getline(input3, tempLine);
 		nameNumTemp = tempLine.length();
 
 		nameTemp = new char[nameNumTemp];
 		strncpy(nameTemp, tempLine.c_str(), nameNumTemp);
-		
 
-		getline(input, tempLine);
-		if (tempLine == "") 
+
+		getline(input3, tempLine);
+		if (tempLine == "")
 		{
-			preNameNumTemp = 0; preNameTemp =0;
+			preNameNumTemp = 0; preNameTemp = 0;
 		}
 		else
 		{
@@ -42,72 +65,59 @@ Tree::Tree()
 			strncpy(preNameTemp, tempLine.c_str(), preNameNumTemp);
 		}
 
-		getline(input, tempLine);
+		getline(input3, tempLine);
 		numTemp = new char[7];
 		strncpy(numTemp, tempLine.c_str(), 7);
 
-		getline(input, tempLine);
+		getline(input3, tempLine);
 		essential = stoi(tempLine);
 
-		getline(input, tempLine);
+		getline(input3, tempLine);
 		design = stoi(tempLine);
 
-		getline(input, tempLine);
+		getline(input3, tempLine);
 		major = stoi(tempLine);
 
-		getline(input, tempLine);
+		getline(input3, tempLine);
 		credit = stoi(tempLine);
 
-		for (int i = 0; i < 7; i++)
-			cout << numTemp[i];
-		cout << endl;
 
-		treeNode newNode(nameTemp, nameNumTemp, preNameTemp, preNameNumTemp, numTemp,
+		treeNode *newNode;
+		newNode = new treeNode(nameTemp, nameNumTemp, preNameTemp, preNameNumTemp, numTemp,
 			essential, design, major, credit);
-		//treeNode *insertNode = &newNode;
-		
-		newNode.right = z;
-		newNode.left = z;
+
+		newNode->right = z;
+		newNode->left = z;
 		treeInsert(newNode);
-		//insertNode->right = z;
-		//insertNode->left = z;
-		//treeInsert(insertNode);
 	}
-	showTree(headNode.right);
+	input3.close();
+	//showTree(headNode.right);
 }
 
 Tree::~Tree()
 {
 }
 
-void Tree::treeInsert(treeNode newNode)
+void Tree::treeInsert(treeNode *newNode)
 {
-	treeNode *tempNode;
-	tempNode = headNode.right;
+	treeInsertSub(newNode, headNode.right);
+}
+void Tree::treeInsertSub(treeNode *newNode, treeNode *&rootNode)
+{
 
-	if (headNode.right == z)
+	if (rootNode == z)
 	{
-		headNode.right = &newNode;
+		rootNode = newNode;
 	}
 	else
 	{
-	    for (int i = 0; i < 7; i++)
-			cout << headNode.right->subjectNum[i];
-		for (int i = 0; i < 7; i++)
-			cout << newNode.subjectNum[i];
-
-		while (tempNode != z)
-		{
-			if (strncmp(tempNode->subjectNum, newNode.subjectNum, 7) < 0)
-				tempNode = tempNode->left;
-			else  if (strncmp(tempNode->subjectNum, newNode.subjectNum, 7) > 0)
-				tempNode = tempNode->right;
-		}
-		tempNode = &newNode;
-
+		if (strncmp(rootNode->subjectNum, newNode->subjectNum, 7) > 0)
+			treeInsertSub(newNode, rootNode->left);
+		else  if (strncmp(rootNode->subjectNum, newNode->subjectNum, 7) < 0)
+			treeInsertSub(newNode, rootNode->right); 
 	}
-
 }
+
 
 void Tree::showTree(treeNode *temp)
 {
