@@ -20,7 +20,7 @@ public:
     int searchKMP(char *subjectNums, char *subName);   //string에서 과목찾아 인덱스 리턴, KMP
     int searchBM(char *subjectNums, char *subName);   //string에서 과목찾아 인덱스 리턴, Boyer-Moore
     //찾기 실패하면 모두 -1 반환
-    
+    void subtake(char *subjectNums);
     
 private:
     node * stringNode;     //string에서 과목을 저장할 배열

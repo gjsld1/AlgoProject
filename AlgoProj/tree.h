@@ -26,6 +26,7 @@ public:
     void showTree(treeNode *temp);
     void readTree(treeNode *temp);
     void searchTree(char *subName);   //TREE에서 학수번호로 찾기
+    void subtake();
     
 private:
     treeNode * z;

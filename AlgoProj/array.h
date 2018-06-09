@@ -18,6 +18,7 @@ public:
     void showArray();
     //void deleteArray();
     int searchArray(char *subName);
+    void subtake();
     
 private:
     node * arrayNode;

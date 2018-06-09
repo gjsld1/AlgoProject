@@ -5,7 +5,8 @@
 //  Created by 신예지 on 2018. 6. 8..
 //  Copyright © 2018년 신예지. All rights reserved.
 //
-#pragma once
+
+v#pragma once
 #include "stdafx.h"
 
 treeNode::treeNode(char *name, int numName, char *preSubject, int numPreName,
@@ -156,6 +157,24 @@ void  Tree::readTree(treeNode *temp)
 }
 
 void Tree::searchTree(char *subName) {
+    
     treeNode *x = headNode.right;
     while (subName != x->subjectNum) x = (subName < x->subjectNum) ? x->left : x->right;
+}
+
+void Tree::subtake() {
+    string sub;
+    int subNum;
+    ifstream take("takeSubject.txt");
+    getline(take, sub);
+    subNum = stoi(sub);
+    
+    char *subName = new char[7];   //string을 char*로
+    //takeSubject에서 학수번호 한 개씩 불러오기
+    for (int k = 0; k < subNum; k++) {
+        getline(take, sub);
+        for (int i = 0; i < sub.length(); i++) subName[i] = sub[i];
+        searchTree(subName);
+        //여기에 삭제하는 것 구현
+    }
 }
