@@ -18,8 +18,14 @@ struct node //과목의 정보
 	int isDesign;        //설계
 	int isMajor;         //전공(0), MSC(1), 기초소양(2), 교양(3)
 	int credit;          //학점
+	int grade;			//학년 1/2/3/4
 
 };
+
+//각 클래스 생성시, 입력 subject.txt는
+//맨첫줄 전체과목수
+//과목이름, 선이수과목명, 학수번호, 필수/선택, 설계과목 유무, 전공유무, 학점 
+//순으로 반복
 
 #include "array.h"
 #include "tree.h"
